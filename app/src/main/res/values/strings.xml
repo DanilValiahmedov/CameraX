@@ -3,4 +3,5 @@
     <string name="take_photo">Фото</string>
     <string name="start_video">Видео</string>
     <string name="stop_video">Стоп</string>
+    <string name="turn_camera">Поворот</string>
 </resources>

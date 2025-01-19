@@ -20,6 +20,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
 import android.util.Log
+import android.view.View
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.video.MediaStoreOutputOptions
 import androidx.camera.video.Quality
@@ -40,20 +41,19 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var cameraExecutor: ExecutorService
 
+    private var cameraSelectorGlobal = CameraSelector.DEFAULT_BACK_CAMERA
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
         // Запрос разрешения на использование камеры
-        if (allPermissionsGranted()) {
-            startCamera()
-        } else {
-            requestPermissions()
-        }
+        checkingPermission()
 
         viewBinding.photoButton.setOnClickListener { takePhoto() }
         viewBinding.videoButton.setOnClickListener { captureVideo() }
+        viewBinding.turnButton.setOnClickListener { choosingCamera() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -139,12 +139,7 @@ class MainActivity : AppCompatActivity() {
             .start(ContextCompat.getMainExecutor(this)) { recordEvent ->
                 when(recordEvent) {
                     is VideoRecordEvent.Start -> {
-                        viewBinding.videoButton.apply {
-                            text = getString(R.string.stop_video)
-                            setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
-                            setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.white))
-                            isEnabled = true
-                        }
+                        changUIForVideo(View.GONE, R.color.white, getString(R.string.stop_video))
                     }
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
@@ -157,15 +152,23 @@ class MainActivity : AppCompatActivity() {
                             Log.e(TAG, "Ошибка при съемке видео" +
                                     "${recordEvent.error}")
                         }
-                        viewBinding.videoButton.apply {
-                            text = getString(R.string.start_video)
-                            setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
-                            setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.video_button))
-                            isEnabled = true
-                        }
+                        changUIForVideo(View.VISIBLE, R.color.video_button, getString(R.string.start_video))
                     }
                 }
             }
+    }
+
+    private fun changUIForVideo(view: Int, resColor: Int, text: String) {
+        viewBinding.videoText.text = text
+        viewBinding.videoButton.apply {
+            setBackgroundColor(ContextCompat.getColor(this@MainActivity, resColor))
+            isEnabled = true
+        }
+
+        viewBinding.photoButton.visibility = view
+        viewBinding.turnButton.visibility = view
+        viewBinding.photoText.visibility = view
+        viewBinding.turnText.visibility = view
     }
 
     private fun startCamera() {
@@ -191,8 +194,8 @@ class MainActivity : AppCompatActivity() {
                 .build()
             videoCapture = VideoCapture.withOutput(recorder)
 
-            // Выбор задней камеры
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+            // Выбор камеры
+            val cameraSelector = cameraSelectorGlobal
 
             try {
                 cameraProvider.unbindAll()
@@ -205,6 +208,23 @@ class MainActivity : AppCompatActivity() {
             }
 
         }, ContextCompat.getMainExecutor(this))
+    }
+
+    private fun choosingCamera() {
+        cameraSelectorGlobal = if(cameraSelectorGlobal == CameraSelector.DEFAULT_BACK_CAMERA) {
+            CameraSelector.DEFAULT_FRONT_CAMERA
+        } else {
+            CameraSelector.DEFAULT_BACK_CAMERA
+        }
+        checkingPermission()
+    }
+
+    private fun checkingPermission() {
+        if (allPermissionsGranted()) {
+            startCamera()
+        } else {
+            requestPermissions()
+        }
     }
 
     private fun requestPermissions() {

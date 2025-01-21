@@ -1,86 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentСontainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     tools:context=".MainActivity">
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/viewFinder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="120dp"/>
-
-    <Button
-        android:id="@+id/photoButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="40dp"
-        android:elevation="2dp"
-        android:backgroundTint="@color/photo_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/videoButton" />
-
-    <TextView
-        android:id="@+id/photoText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/take_photo"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/photoButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/photoButton"
-        app:layout_constraintEnd_toEndOf="@+id/photoButton"/>
-
-    <Button
-        android:id="@+id/videoButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="40dp"
-        android:elevation="2dp"
-        android:backgroundTint="@color/video_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/turnButton"
-        app:layout_constraintStart_toEndOf="@id/photoButton" />
-
-    <TextView
-        android:id="@+id/videoText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start_video"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/videoButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/videoButton"
-        app:layout_constraintEnd_toEndOf="@+id/videoButton"/>
-
-    <Button
-        android:id="@+id/turnButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="40dp"
-        android:elevation="2dp"
-        android:backgroundTint="@color/turn_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/videoButton" />
-
-    <TextView
-        android:id="@+id/turnText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/turn_camera"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/turnButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/turnButton"
-        app:layout_constraintEnd_toEndOf="@+id/turnButton"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
+</FrameLayout>
 
 

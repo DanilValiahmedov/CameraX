@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -39,6 +40,12 @@ android {
 }
 
 dependencies {
+
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
+
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.camera2)

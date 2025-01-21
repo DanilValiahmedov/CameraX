@@ -4,4 +4,8 @@
     <string name="start_video">Видео</string>
     <string name="stop_video">Стоп</string>
     <string name="turn_camera">Поворот</string>
+    <string name="gallery">Галерея</string>
+    <string name="saved_photo">"Фото сохранено"</string>
+    <string name="saved_video">"Видео сохранено"</string>
+    <string name="no_permission">"У приложения нет доступа к камере"</string>
 </resources>

@@ -178,7 +178,7 @@ class CameraFragment : Fragment() {
                             Log.e(TAG, "Ошибка при съемке видео" +
                                     "${recordEvent.error}")
                         }
-                        changUIForVideo(View.VISIBLE, R.color.video_button, getString(R.string.start_video))
+                        changUIForVideo(View.VISIBLE, R.color.red_button, getString(R.string.start_video))
                     }
                 }
             }
@@ -191,13 +191,10 @@ class CameraFragment : Fragment() {
             isEnabled = true
         }
 
-        viewBinding.photoButton.visibility = view
-        viewBinding.turnButton.visibility = view
-        viewBinding.galleryButton.visibility = view
-
-        viewBinding.photoText.visibility = view
-        viewBinding.turnText.visibility = view
-        viewBinding.galleryText.visibility = view
+        listOf(viewBinding.photoButton, viewBinding.turnButton, viewBinding.galleryButton,
+            viewBinding.photoText, viewBinding.turnText, viewBinding.galleryText).forEach {
+            it.visibility = view
+        }
     }
 
     private fun startCamera() {

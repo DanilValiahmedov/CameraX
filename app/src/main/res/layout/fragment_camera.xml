@@ -20,7 +20,7 @@
         android:layout_height="60dp"
         android:layout_marginBottom="40dp"
         android:elevation="2dp"
-        android:backgroundTint="@color/photo_button"
+        android:backgroundTint="@color/blue_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/videoButton" />
@@ -42,7 +42,7 @@
         android:layout_height="60dp"
         android:layout_marginBottom="40dp"
         android:elevation="2dp"
-        android:backgroundTint="@color/video_button"
+        android:backgroundTint="@color/red_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/turnButton"
         app:layout_constraintStart_toEndOf="@id/photoButton" />
@@ -64,7 +64,7 @@
         android:layout_height="60dp"
         android:layout_marginBottom="40dp"
         android:elevation="2dp"
-        android:backgroundTint="@color/turn_button"
+        android:backgroundTint="@color/grey_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/galleryButton"
         app:layout_constraintStart_toEndOf="@id/videoButton" />

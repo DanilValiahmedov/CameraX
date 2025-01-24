@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.camerax.R
+import com.example.camerax.fragments.ViewingPhotosFragment
 
 class AdapterPhoto(private val context: Context,
+                   private val fragmentManager: FragmentManager,
                    private val dataList: List<RecyclerMedia>): RecyclerView.Adapter<AdapterPhoto.MediaViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
@@ -19,11 +22,26 @@ class AdapterPhoto(private val context: Context,
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
         val item = dataList[position]
-        Glide.with(context).load(item.image1).into(holder.image1)
-        Glide.with(context).load(item.image2).into(holder.image2)
-        Glide.with(context).load(item.image3).into(holder.image3)
+
+        launchingPhoto(item.image1, holder.image1)
+        launchingPhoto(item.image2, holder.image2)
+        launchingPhoto(item.image3, holder.image3)
     }
 
+    private fun launchingPhoto(itemUri: String, holderImage: ImageView){
+        Glide.with(context).load(itemUri).into(holderImage)
+
+        holderImage.setOnClickListener {
+            fragmentManager.beginTransaction()
+                .replace(
+                    R.id.fragmentСontainer,
+                    ViewingPhotosFragment.newInstance(itemUri, true)
+                )
+                .addToBackStack(null)
+                .commit()
+        }
+
+    }
 
     override fun getItemCount(): Int {
         return dataList.size

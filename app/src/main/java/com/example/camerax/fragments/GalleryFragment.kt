@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.camerax.database.MainDB
 import com.example.camerax.databinding.FragmentGalleryBinding
@@ -35,12 +36,11 @@ class GalleryFragment : Fragment() {
         db = MainDB.getDB(requireContext())
 
         viewBinding.recycler.layoutManager = LinearLayoutManager(requireContext())
-
         showMedia()
     }
 
     private fun showMedia()  {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             val uris = db.getDao().getAllUri()
 
             // Преобразование списка в группы по 3 элемента
@@ -55,7 +55,7 @@ class GalleryFragment : Fragment() {
                 }
             withContext(Dispatchers.Main) {
                 viewBinding.recycler.adapter = AdapterPhoto(
-                    requireContext(), recyclerUris
+                    requireContext(), parentFragmentManager, recyclerUris
                 )
             }
         }

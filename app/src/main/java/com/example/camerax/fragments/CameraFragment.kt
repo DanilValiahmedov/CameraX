@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment
 import com.example.camerax.R
 import com.example.camerax.database.InformMedia
 import com.example.camerax.database.MainDB
+import com.example.camerax.database.MediaType
 import com.example.camerax.databinding.FragmentCameraBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -102,7 +103,7 @@ class CameraFragment : Fragment() {
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Log.e(TAG, "Не удалось сделать фото. Ошибка: ${exc.message}", exc)
+                    Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
@@ -112,7 +113,7 @@ class CameraFragment : Fragment() {
                     Log.d(TAG, msg)
 
                     // Сохранение URI в базу данных
-                    val informMedia = InformMedia(null, savedUri.toString())
+                    val informMedia = InformMedia(null, savedUri.toString(), MediaType.PHOTO)
 
                     CoroutineScope(Dispatchers.IO).launch {
                         db.getDao().insertUri(informMedia)
@@ -167,7 +168,7 @@ class CameraFragment : Fragment() {
                             val savedUri = Uri.fromFile(videoFile)
                             Toast.makeText(requireContext(), getString(R.string.saved_video), Toast.LENGTH_SHORT).show()
                             // Сохранение URI в базу данных
-                            val informMedia = InformMedia(null, savedUri.toString())
+                            val informMedia = InformMedia(null, savedUri.toString(), MediaType.VIDEO)
 
                             CoroutineScope(Dispatchers.IO).launch {
                                 db.getDao().insertUri(informMedia)
@@ -175,8 +176,7 @@ class CameraFragment : Fragment() {
                         } else {
                             recording?.close()
                             recording = null
-                            Log.e(TAG, "Ошибка при съемке видео" +
-                                    "${recordEvent.error}")
+                            Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
                         }
                         changUIForVideo(View.VISIBLE, R.color.red_button, getString(R.string.start_video))
                     }
@@ -294,7 +294,7 @@ class CameraFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "CameraX"
+        private const val TAG = "MyAppCameraX"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private val REQUIRED_PERMISSIONS =
             mutableListOf (

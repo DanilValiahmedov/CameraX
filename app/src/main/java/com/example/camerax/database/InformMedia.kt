@@ -10,4 +10,6 @@ data class InformMedia(
     var id: Int? = null,
     @ColumnInfo(name = "uri")
     var uri: String,
+    @ColumnInfo(name = "mediaType")
+    var mediaType: MediaType,
 )

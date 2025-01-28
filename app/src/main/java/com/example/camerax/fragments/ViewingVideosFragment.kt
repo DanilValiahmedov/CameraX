@@ -6,27 +6,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
 import com.example.camerax.R
 import com.example.camerax.database.InformMedia
 import com.example.camerax.database.MainDB
 import com.example.camerax.database.MediaType
-import com.example.camerax.databinding.FragmentViewingPhotosBinding
+import com.example.camerax.databinding.FragmentViewingVideosBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class ViewingPhotosFragment : Fragment() {
+class ViewingVideosFragment : Fragment() {
 
-    private lateinit var viewBinding: FragmentViewingPhotosBinding
+    private lateinit var viewBinding: FragmentViewingVideosBinding
 
     private val db: MainDB by lazy { MainDB.getDB(requireContext()) }
     private var uri: String = ""
-    private var firstOpening: Boolean = true
     private var uris: List<InformMedia> = emptyList()
     private var currentIndex: Int = 0
 
@@ -34,7 +32,7 @@ class ViewingPhotosFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewBinding = FragmentViewingPhotosBinding.inflate(inflater)
+        viewBinding = FragmentViewingVideosBinding.inflate(inflater)
         return viewBinding.root
     }
 
@@ -43,40 +41,24 @@ class ViewingPhotosFragment : Fragment() {
 
         arguments?.let {
             uri = it.getString("uri") ?: ""
-            firstOpening = it.getBoolean("firstOpening")
         }
-        Glide.with(requireContext()).load(uri).into(viewBinding.photo)
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            uris = db.getDao().getMediaByType(MediaType.PHOTO)
+            uris = db.getDao().getMediaByType(MediaType.VIDEO)
             currentIndex = uris.indexOfFirst { it.uri == uri }
             withContext(Dispatchers.Main) {
-                updatePhoto()
+                updateVideo()
             }
         }
 
-        if(firstOpening) changViewMode(View.GONE, R.color.black)
+        viewBinding.delete.setOnClickListener { deleteVideo() }
 
-        viewBinding.leftButton.setOnClickListener { changePhoto(1) }
-        viewBinding.rightButton.setOnClickListener { changePhoto(-1)  }
-        viewBinding.deleteButton.setOnClickListener { deletePhoto() }
-        viewBinding.photo.setOnClickListener{
-            if(viewBinding.deleteButton.visibility == View.GONE) {
-                changViewMode(View.VISIBLE, R.color.white)
-            }
-            else changViewMode(View.GONE, R.color.black)
-        }
+        viewBinding.left.setOnClickListener { changeVideo(1) }
+        viewBinding.right.setOnClickListener { changeVideo(-1) }
+
     }
 
-    private fun changViewMode(view: Int, resColor: Int){
-        listOf(viewBinding.deleteButton, viewBinding.leftButton, viewBinding.rightButton).forEach {
-            it.visibility = view
-        }
-        val color = ContextCompat.getColor(requireContext(), resColor)
-        viewBinding.back.setBackgroundColor(color)
-    }
-
-    private fun deletePhoto() {
+    private fun deleteVideo() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             // Удаление из базы данных
             val id = uris[currentIndex].id
@@ -89,7 +71,7 @@ class ViewingPhotosFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     parentFragmentManager.popBackStack()
                     Toast.makeText(
-                        requireContext(), getString(R.string.delete_photo), Toast.LENGTH_SHORT
+                        requireContext(), getString(R.string.delete_video), Toast.LENGTH_SHORT
                     ).show()
                 }
             } else {
@@ -100,27 +82,34 @@ class ViewingPhotosFragment : Fragment() {
         }
     }
 
-    private fun changePhoto(orientation: Int) {
+    private fun changeVideo(orientation: Int) {
         val newIndex = currentIndex + orientation
         if (newIndex in uris.indices) {
             currentIndex = newIndex
-            updatePhoto()
+            updateVideo()
         }
     }
 
-    private fun updatePhoto() {
-        uri = uris[currentIndex].uri
-        Glide.with(requireContext()).load(uri).into(viewBinding.photo)
+    private fun updateVideo() {
+        val mediaController = MediaController(requireContext())
+        mediaController.setAnchorView(viewBinding.videoView)
+
+        val uriVideo = Uri.parse(uri)
+
+        viewBinding.videoView.apply {
+            setMediaController(mediaController)
+            setVideoURI(uriVideo)
+            requestFocus()
+            start()
+        }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(uri: String, firstOpening: Boolean) = ViewingPhotosFragment().apply {
+        fun newInstance(uri: String) = ViewingVideosFragment().apply {
             arguments = Bundle().apply {
                 putString("uri", uri)
-                putBoolean("firstOpening", firstOpening)
             }
         }
     }
-
 }

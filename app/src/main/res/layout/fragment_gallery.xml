@@ -18,6 +18,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/photoShow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/show_photo"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        android:enabled="false"
+        android:layout_margin="15dp"
+        app:cornerRadius="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/videoShow"
+        app:layout_constraintTop_toBottomOf="@+id/textGallery"/>
+
+    <Button
+        android:id="@+id/videoShow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/show_video"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        android:layout_margin="15dp"
+        app:cornerRadius="0dp"
+        app:layout_constraintStart_toEndOf="@+id/photoShow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textGallery"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
@@ -27,6 +54,6 @@
         android:paddingBottom="90dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textGallery" />
+        app:layout_constraintTop_toBottomOf="@+id/photoShow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

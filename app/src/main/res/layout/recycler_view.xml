@@ -11,7 +11,6 @@
         android:id="@+id/image1"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:src="@drawable/examplephoto"
         android:scaleType="centerCrop"
         android:layout_marginEnd="5dp" />
 
@@ -19,14 +18,12 @@
         android:id="@+id/image2"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:src="@drawable/examplephoto"
         android:scaleType="centerCrop" />
 
     <ImageView
         android:id="@+id/image3"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:src="@drawable/examplephoto"
         android:scaleType="centerCrop"
         android:layout_marginStart="5dp" />
 

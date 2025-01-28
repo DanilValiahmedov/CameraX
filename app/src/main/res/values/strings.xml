@@ -6,8 +6,12 @@
     <string name="turn_camera">Поворот</string>
     <string name="gallery">Галерея</string>
     <string name="delete">Удалить</string>
+    <string name="show_photo">Фотографии</string>
+    <string name="show_video">Видеозаписи</string>
     <string name="saved_photo">"Фото сохранено"</string>
     <string name="delete_photo">"Фото удалено"</string>
+    <string name="delete_video">"Видео удалено"</string>
     <string name="saved_video">"Видео сохранено"</string>
     <string name="no_permission">"У приложения нет доступа к камере"</string>
+    <string name="error">"Произошла ошибка"</string>
 </resources>

@@ -7,24 +7,63 @@
     android:paddingEnd="5dp"
     android:paddingStart="5dp">
 
-    <ImageView
-        android:id="@+id/image1"
+    <FrameLayout
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:scaleType="centerCrop"
-        android:layout_marginEnd="5dp" />
+        android:layout_marginEnd="5dp">
 
-    <ImageView
-        android:id="@+id/image2"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:scaleType="centerCrop" />
+        <ImageView
+            android:id="@+id/image1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
 
-    <ImageView
-        android:id="@+id/image3"
+        <ImageView
+            android:id="@+id/playIcon1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:src="@drawable/ic_play"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="110dp"
+        android:layout_height="110dp">
+
+        <ImageView
+            android:id="@+id/image2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/playIcon2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:src="@drawable/ic_play"/>
+    </FrameLayout>
+
+    <FrameLayout
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:scaleType="centerCrop"
-        android:layout_marginStart="5dp" />
+        android:layout_marginStart="5dp">
+
+        <ImageView
+            android:id="@+id/image3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/playIcon3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:src="@drawable/ic_play"/>
+    </FrameLayout>
 
 </LinearLayout>

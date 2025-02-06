@@ -94,7 +94,7 @@ class ViewingVideosFragment : Fragment() {
         val mediaController = MediaController(requireContext())
         mediaController.setAnchorView(viewBinding.videoView)
 
-        val uriVideo = Uri.parse(uri)
+        val uriVideo = Uri.parse(uris[currentIndex].uri)
 
         viewBinding.videoView.apply {
             setMediaController(mediaController)
